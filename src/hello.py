@@ -1,6 +1,7 @@
 def hello() -> str:
     return "Hello from aoc-2024!"
 
+
 def main():
     print(hello())
 
