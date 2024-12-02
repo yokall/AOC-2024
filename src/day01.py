@@ -20,6 +20,22 @@ def part1(lines: list[str]) -> int:
     return sum
 
 
+def part2(lines: list[str]) -> int:
+    list1 = []
+    list2 = []
+
+    for line in lines:
+        int1, int2 = map(int, line.split())
+        list1.append(int1)
+        list2.append(int2)
+
+    sum = 0
+    for num in list1:
+        sum += num * list2.count(num)
+
+    return sum
+
+
 def main():
     script_dir = Path(__file__).parent
 
@@ -30,7 +46,8 @@ def main():
     with file_path.open("r") as file:
         lines = file.readlines()
 
-    print(f"part 1: {part1(lines)}")
+    print(f"Part 1: {part1(lines)}")
+    print(f"Part 2: {part2(lines)}")
 
 
 if __name__ == "__main__":
