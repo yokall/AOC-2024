@@ -7,55 +7,60 @@ def part1(reports: list[str]) -> int:
     for report in reports:
         levels = list(map(int, report.split()))
 
-        current_direction = 0
+        badIndex = checkForBadLevels(levels)
 
-        safe = 1
-
-        for index, level in enumerate(levels):
-            # Skip the first level as we are always comparing with the previous level
-            if index == 0:
-                continue
-
-            previous_level = levels[index - 1]
-            difference = previous_level - level
-
-            if difference == 0:
-                safe = 0
-                break
-            elif difference < 0:
-                direction = 1
-            else:
-                direction = -1
-
-            if current_direction == 0:
-                current_direction = direction
-            elif direction != current_direction:
-                safe = 0
-                break
-
-            if abs(difference) > 3:
-                safe = 0
-                break
-
-        safe_count += safe
+        if badIndex == -1:
+            safe_count += 1
 
     return safe_count
 
 
-def part2(lines: list[str]) -> int:
-    list1 = []
-    list2 = []
+def checkForBadLevels(levels: list[int]) -> int:
+    current_direction = 0
 
-    for line in lines:
-        int1, int2 = map(int, line.split())
-        list1.append(int1)
-        list2.append(int2)
+    for index in range(1, len(levels) - 1):
+        level = levels[index]
 
-    sum = 0
-    for num in list1:
-        sum += num * list2.count(num)
+        next_level = levels[index + 1]
+        difference = next_level - level
 
-    return sum
+        if difference == 0:
+            return index
+        elif difference < 0:
+            direction = 1
+        else:
+            direction = -1
+
+        if current_direction == 0:
+            current_direction = direction
+        elif direction != current_direction:
+            return index
+
+        if abs(difference) > 3:
+            return index
+
+    return -1
+
+
+# solution stolen from reddit https://www.reddit.com/r/adventofcode/comments/1h4ncyr/comment/m0041k3/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+def part2(reports: list[str]) -> int:
+    reports = [[int(level) for level in report.split()] for report in reports]
+
+    safe_count = sum(
+        [
+            any([is_safe(report[:i] + report[i + 1 :]) for i in range(len(report))])
+            for report in reports
+        ]
+    )
+
+    return safe_count
+
+
+def is_safe(row):
+    inc = [row[i + 1] - row[i] for i in range(len(row) - 1)]
+    if set(inc) <= {1, 2, 3} or set(inc) <= {-1, -2, -3}:
+        return True
+    return False
 
 
 def main():
@@ -69,7 +74,7 @@ def main():
         lines = file.readlines()
 
     print(f"Part 1: {part1(lines)}")
-    # print(f"Part 2: {part2(lines)}")
+    print(f"Part 2: {part2(lines)}")
 
 
 if __name__ == "__main__":
