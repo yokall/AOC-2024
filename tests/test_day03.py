@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from day03 import part1, part2
 
 
