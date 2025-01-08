@@ -24,6 +24,9 @@ def get_distance_between_points(
 def part1(lines: list[str]) -> int:
     antenna_groups = get_points(lines)
 
+    width = len(lines[0])
+    height = len(lines)
+
     antinodes = set()
     for frequency in antenna_groups:
         for antenna in antenna_groups[frequency]:
@@ -37,8 +40,8 @@ def part1(lines: list[str]) -> int:
                     if (
                         antinode_x >= 0
                         and antinode_y >= 0
-                        and antinode_x < len(lines[0])
-                        and antinode_y < len(lines)
+                        and antinode_x < width
+                        and antinode_y < height
                     ):
                         antinodes.add((antinode_x, antinode_y))
 
@@ -52,10 +55,10 @@ def part2(lines: list[str]) -> int:
 def main():
     script_dir = Path(__file__).parent
 
-    file_path = script_dir / "data/day07.txt"
+    file_path = script_dir / "data/day08.txt"
 
     with file_path.open("r") as file:
-        lines = file.readlines()
+        lines = [line.strip() for line in file.readlines()]
 
     print(f"Part 1: {part1(lines)}")
     print(f"Part 2: {part2(lines)}")

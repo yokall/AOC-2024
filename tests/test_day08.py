@@ -10,7 +10,7 @@ def test_get_points() -> None:
     file_path = script_dir / "data/day08.txt"
 
     with file_path.open("r") as file:
-        lines = file.readlines()
+        lines = [line.strip() for line in file.readlines()]
 
     expected = {
         "0": [(8, 1), (5, 2), (7, 3), (4, 4)],
@@ -38,7 +38,7 @@ def test_part1() -> None:
     file_path = script_dir / "data/day08.txt"
 
     with file_path.open("r") as file:
-        lines = file.readlines()
+        lines = [line.strip() for line in file.readlines()]
 
     assert part1(lines) == 14
 
@@ -50,6 +50,6 @@ def test_part2() -> None:
     file_path = script_dir / "data/day08.txt"
 
     with file_path.open("r") as file:
-        lines = file.readlines()
+        lines = [line.strip() for line in file.readlines()]
 
     assert part2(lines) == 11387
